@@ -37,6 +37,7 @@
             <li>XXXX</li>
         </ul>
     </div>
+    <script src="/static/reconnecting-websocket.min.js"></script>
     <script src="/static/scripts.js"></script>
 </body>
 

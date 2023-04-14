@@ -125,6 +125,12 @@ window.onbeforeunload = function() {
       sendMessage()
     }
   })
+
+
+
+
+
+
 })
  
 function sendMessage() {
