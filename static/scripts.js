@@ -15,4 +15,25 @@ document.addEventListener("DOMContentLoaded", function(){
   socket.onopen = () => {
     console.log("Successfully connected")
   }
+
+    // 接続がCLOSEDに変わった時に呼ばれる
+  // https://developer.mozilla.org/ja/docs/Web/API/WebSocket/onclose
+  socket.onclose = () => {
+    console.log("connection closed")
+  }
+ 
+  // エラーが発生した時に呼び出される
+  // https://developer.mozilla.org/ja/docs/Web/API/WebSocket/onerror
+  socket.onerror = error => {
+    console.log("there was an error")
+  }
+ 
+  // サーバーからメッセージが届いたときに呼び出される
+  // https://developer.mozilla.org/ja/docs/Web/API/WebSocket/onmessage
+  socket.onmessage = msg => {
+    let j = JSON.parse(msg.data)
+    console.log(j)
+  }
+
+  socket = new WebSocket("ws://127.0.0.1:8080/ws")
 })

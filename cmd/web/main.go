@@ -23,6 +23,8 @@ func routes() http.Handler {
 func main() {
 	mux := routes()
 	log.Println("Starting web server on port 8080")
+	go handlers.ListenToWsChannel()
 
+	log.Println("Starting web server on port 8080")
 	_ = http.ListenAndServe("localhost:8080", mux)
 }
