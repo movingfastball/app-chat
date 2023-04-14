@@ -26,7 +26,7 @@
             <div class="send-area">
                 <input type="text" id="message" class="message" autocomplete="off" placeholder="message...">
                 
-                <button id="submit" class="submit">
+                <button id="submit" class="submit" onclick="sendMessage()"> <!-- onclickを追加 -->
                     <i class="far fa-paper-plane"></i>
                 </button>
             </div>

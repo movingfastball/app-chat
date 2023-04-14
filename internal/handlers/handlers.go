@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sort"
 
 	"github.com/CloudyKit/jet/v6"
 	"github.com/gorilla/websocket"
@@ -120,10 +121,39 @@ func ListenToWsChannel() {
 		// メッセージが入るまで、ここでブロック
 		e := <-wsChan
 
-		// アクションによって処理を分ける必要があるが便宜的に以下を宣言
-		response.Action = "Got here"
-		response.Message = fmt.Sprintf("Some message, and action was %s", e.Action)
-
-		broadcastToAll(response)
+		switch e.Action {
+		case "username":
+			// ここで、コネクションのユーザー名を格納
+			clients[e.Conn] = e.Username
+			users := getUserList()
+			response.Action = "list_users"
+			response.ConnectedUsers = users // 後ほど構造体に追加
+			broadcastToAll(response)
+		case "left":
+			response.Action = "list_users"
+			// clientsからユーザーを削除
+			delete(clients, e.Conn)
+			users := getUserList()
+			response.ConnectedUsers = users
+			broadcastToAll(response)
+		case "broadcast":
+			response.Action = "broadcast"
+			response.Message = fmt.Sprintf(
+				"<li class='replace'><strong>%s</strong>: %s</li>",
+				e.Username,
+				e.Message)
+			broadcastToAll(response)
+		}
 	}
+}
+
+func getUserList() []string {
+	var clientList []string
+	for _, client := range clients {
+		if client != "" {
+			clientList = append(clientList, client)
+		}
+	}
+	sort.Strings(clientList)
+	return clientList
 }

@@ -5,8 +5,9 @@ import "github.com/gorilla/websocket"
 
 // WebSocketsからの返却用データの構造体
 type WsJsonResponse struct {
-	Action  string `json:"action"`
-	Message string `json:"message"`
+	Action         string   `json:"action"`
+	Message        string   `json:"message"`
+	ConnectedUsers []string `json:"connected_users"`
 }
 
 // WebSocketsコネクション情報を格納
